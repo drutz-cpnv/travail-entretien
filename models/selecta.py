@@ -47,20 +47,27 @@ class Selecta:
     def get_change(self):
         print()
         template = "{:.2f} CHF"
-        print(template.format(self.credit / 100))
+        out = template.format(self.credit / 100)
+        print(out)
         print()
+        return out
 
     def get_balance(self):
         print()
         template = "{:.2f} CHF"
-        print(template.format(self.balance / 100))
+        out = template.format(self.balance / 100)
+        print(out)
         print()
+        return out
 
     def get_transactions(self):
         print()
+        out = ""
         for transaction in self.transactions:
-            print(transaction.__str__())
+            out += transaction.__str__() + "\n"
+        print(out)
         print()
+        return out
 
     def status(self):
         print()
@@ -78,6 +85,7 @@ class Selecta:
             )
         print(string)
         print()
+        return string
 
     def choose(self, code: str):
         """
@@ -86,17 +94,17 @@ class Selecta:
         """
         if code not in self.products.keys():
             print("Invalid selection!")
-            return
+            return "Invalid selection!"
         product = self.products[code]
         if self.credit < product.unit_price:
             print("Not enough money!")
-            return
+            return "Not enough money!"
         if product.quantity == 0:
             print(f'Item {product.name}: Out of stock!')
-            return
+            return f'Item {product.name}: Out of stock!'
 
         self.get_current_transaction().inserted_amount = self.credit
-        self.make_transaction(product, self.get_current_transaction())
+        return self.make_transaction(product, self.get_current_transaction())
 
     def make_transaction(self, product: Product, transaction: Transaction):
         transaction.product = product
@@ -104,7 +112,8 @@ class Selecta:
         self.credit -= product.unit_price
         self.balance += product.unit_price
         transaction.finished = True
-        print(f'Selling {product.__str__()}')
+        print(f'Vending {product.__str__()}')
+        return f'Vending {product.__str__()}'
 
     def finish_transaction(self):
         if self.get_current_transaction():
@@ -113,6 +122,7 @@ class Selecta:
             string = "[Transaction {}] Terminée\nMontant retourné: {} CHF"
             print(string.format(transaction.uuid, self.credit))
             self.credit = 0
+            return string.format(transaction.uuid, self.credit)
 
     def get_transactions_hours_by_hours(self):
         print()
@@ -128,4 +138,5 @@ class Selecta:
             value = sorted_dict[hour]
             template = "{} generated a revenue of {:.2f} CHF"
             print(template.format(hour, value / 100))
+            return template.format(hour, value / 100)
         print()

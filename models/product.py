@@ -12,5 +12,6 @@ class Product:
         self.code = code
 
     def __str__(self):
-        string = "{}: {:.2f} CHF"
-        return string.format(self.name, self.unit_price / 100)
+        # string = "{}: {:.2f} CHF"
+        # return string.format(self.name, self.unit_price / 100)
+        return self.name
